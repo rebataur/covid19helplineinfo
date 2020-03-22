@@ -3,7 +3,7 @@ venv
 .vscode
 .idea
 *.bat
-*.sh
+
 secrets
 
 eunoiaproject/eunoiaproject/localsettings.py
