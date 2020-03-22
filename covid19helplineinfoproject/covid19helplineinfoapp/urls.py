@@ -20,8 +20,8 @@ from . import views
 
 app_name = 'covid19helplineinfoapp'
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('home/', views.home, name='home'),
+    # path('', views.index, name='index'),
+    path('', views.home, name='home'),
     path('mylocalinfofilter',views.mylocalinfofilter,name='mylocalinfofilter'),
     path('mylocalinfo/', views.mylocalinfo, name='mylocalinfo'),
     path('mylocalinfoform/', views.mylocalinfoform, name='mylocalinfoform'),
