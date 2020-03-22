@@ -50,7 +50,8 @@ def home(request):
     }
 
     news = News.objects.all()
-    dashboard = Dashboard.objects.all()[0]
+
+    dashboard = Dashboard.objects.all()[0] if len(Dashboard.objects.all()) > 0 else None
     context['news'] = news
     context['dashboard'] = dashboard
 

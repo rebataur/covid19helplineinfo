@@ -94,7 +94,8 @@ class Dashboard(models.Model):
     total_recovered = models.IntegerField(blank=True, default=0, null=True)
     total_death = models.IntegerField(blank=True, default=0, null=True)
     total_ongoing = models.IntegerField(blank=True, default=0, null=True)
-
+    important_message=  models.TextField(max_length=1024*10, blank=True) 
+    
 class News(models.Model):
     news =  models.TextField(max_length=1024*10, blank=True) 
     link =  models.TextField(max_length=1024*10, blank=True)
