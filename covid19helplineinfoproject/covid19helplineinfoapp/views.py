@@ -61,12 +61,12 @@ def home(request):
 def mylocalinfo(request):
     country = request.GET.get('country')
     state = request.GET.get('state')
-    city = request.GET.get('city')
+    # city = request.GET.get('city')
     print('==========')
-    print(country,state,city)
-    if country and state and city :       
+    print(country,state)
+    if country and state :       
         print('country found',request.GET.get('country'))
-        info = LocalHelpInfo.objects.filter(country=country,state=state,city=city)[0]
+        info = LocalHelpInfo.objects.filter(country=country,state=state)[0]
         context = {'info' : info }
         return render(request,'covid19helplineinfoapp/mylocalinfodetail.html',context=context)
 
