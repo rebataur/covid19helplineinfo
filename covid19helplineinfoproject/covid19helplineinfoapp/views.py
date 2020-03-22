@@ -33,6 +33,7 @@ from .models import (
     LocalHelpInfo,
     News,
     Dashboard,
+    LoadDataModel,
 
     get_location_data
 
@@ -133,80 +134,21 @@ def mylocalinfoform(request):
     context['form'] = LocalHelpInfoForm()
 
     return render(request,'covid19helplineinfoapp/mylocalinfoform.html',context=context)
-
-# ======================== Operator Execute Workorder ===============================
-@login_required
-def operator_execute_workorder(request):
-    profile_instance = Profile.objects.filter(user__username=request.user)[0]
-
-    pending_work_orders = WorkOrder.objects.filter(assigned_operator=profile_instance.id, work_order_status='PENDING')
-    done_work_orders = WorkOrder.objects.filter(assigned_operator=profile_instance.id, work_order_status='DONE')
-    print(pending_work_orders)
-    context = {
-        "username": request.user,
-        "profile_pic_url": profile_instance.profile_pic.url,
-        'pending_work_orders' : pending_work_orders,
-        'done_work_orders' : done_work_orders
-    }
-    return render(request,"covid19helplineinfoapp/operator/executeworkorder.html",context)
-
-@login_required
-def operator_execute_workorder_step(request,id,step):
-    profile_instance = Profile.objects.filter(user__username=request.user)[0]
-    pending_work_order = WorkOrder.objects.get(id=id)
-
-    work_instructions = WorkInstruction.objects.filter(equipment_type=pending_work_order.equipment.equipment_type.type_code).order_by('id')
-    print(work_instructions)
-    next_step = step+1 if step < len(work_instructions) else 0 
-    back_step = step-1 if step > 1 else 0 
-    context = {
-        "username": request.user,
-        "profile_pic_url": profile_instance.profile_pic.url,
-        'pending_work_order' : pending_work_order,
-        "id" : id,
-        "step" : step,
-        "next_step" : next_step,
-        "back_step" : back_step,  
-        
-    }
-    
-
-    if request.method == 'POST':
-        form = WorkOrderWorkInstructionStepForm(request.POST)
-        print(form.is_valid())
-        print(form.errors)
-        if form.is_valid():
-            wo_inst_step = WorkOrderWorkInstructionStep.objects.filter(workorder=id,work_instruction_step_id=work_instructions[step-1].id)    
-            print(wo_inst_step.count())        
-            if wo_inst_step.count() > 0:
-                print(form.cleaned_data.get('important_observation'))
-                wo_inst_step_instance = WorkOrderWorkInstructionStep.objects.get(pk=wo_inst_step[0].id)
-                wo_inst_step_instance.important_observation = form.cleaned_data.get('important_observation')
-                wo_inst_step_instance.observation_type =  form.cleaned_data.get('observation_type')
-                wo_inst_step_instance.status = 'DONE'
-                wo_inst_step_instance.save()
-            else:
-                model_instance = form.save(commit=False)
-                model_instance.workorder = WorkOrder.objects.get(id=id)
-                model_instance.status = 'DONE'
-                model_instance.save()
-            # return HttpResponse("Done", content_type="text/html")
-  
-    if step > 0:
-        context["workinstruction_step"] =  work_instructions[step-1]
-        work_order_instruction_form = WorkOrderWorkInstructionStepForm(initial={'work_instruction_step_id':work_instructions[step-1].id})
-        wo_inst_step = WorkOrderWorkInstructionStep.objects.filter(workorder=id,work_instruction_step_id=work_instructions[step-1].id)
-        if wo_inst_step.count()> 0:
-            work_order_instruction_form = WorkOrderWorkInstructionStepForm(initial={'work_instruction_step_id':work_instructions[step-1].id,'observation_type':wo_inst_step[0].observation_type,'important_observation':wo_inst_step[0].important_observation})
-        context['WorkOrderWorkInstructionStepForm'] = work_order_instruction_form
-
-    # If nothing is pending in steps mark the WO completed
-    wo_inst_step = WorkOrderWorkInstructionStep.objects.filter(workorder=id,status='PENDING')
-    print(wo_inst_step.count())
-    if wo_inst_step.count() == 0:
-        pending_work_order.work_order_status = 'DONE'
-        pending_work_order.save()
-    return render(request,"covid19helplineinfoapp/operator/executeworkorder_step.html",context)
+import io
+def loaddata(request):
+    loaddata = LoadDataModel.objects.all()[0]
+    # print(loaddata.data)
+    f = io.StringIO(loaddata.data)
+    for line in f:
+        # print(line.splitlines())
+        val = line.splitlines()[0].split(',')
+        print(val)
+        state = val[0]
+        phonenumber1 = val[1]        
+        phonenumber2 = val[2] if len(val) == 3 else '+91-11-23978046'
+        phonenumber3 = '+91-11-23978046' if len(val) == 3 else '' 
+        LocalHelpInfo.objects.create(city='NA', country='India',state=state,helpline_phonenumber1=phonenumber1,helpline_phonenumber2=phonenumber2,helpline_phonenumber3=phonenumber3)
+    return HttpResponse(200)
 # ======================== END OF BIZ FUNCTIONALITY======================
 
 

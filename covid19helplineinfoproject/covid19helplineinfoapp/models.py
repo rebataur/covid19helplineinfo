@@ -99,3 +99,6 @@ class Dashboard(models.Model):
 class News(models.Model):
     news =  models.TextField(max_length=1024*10, blank=True) 
     link =  models.TextField(max_length=1024*10, blank=True)
+
+class LoadDataModel(models.Model):
+    data = models.TextField()
