@@ -25,7 +25,7 @@ urlpatterns = [
     path('mylocalinfofilter',views.mylocalinfofilter,name='mylocalinfofilter'),
     path('mylocalinfo/', views.mylocalinfo, name='mylocalinfo'),
     path('mylocalinfoform/', views.mylocalinfoform, name='mylocalinfoform'),
-    
+    path('loaddata/', views.loaddata,name="loaddata"),
     path('signup/', views.signup, name='signup'),
 
     path('signup/account_activation_sent/', views.account_activation_sent, name='account_activation_sent'),
