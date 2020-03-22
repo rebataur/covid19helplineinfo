@@ -1,0 +1,74 @@
+{% extends 'covid19helplineinfoapp/base.html' %}
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'covid19helplineinfoapp:admin_operator_detail' %}" class="">Manage Operator</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Assign</li>
+    </ol>
+  </nav>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-6">
+          <form method="post" action="{% url 'covid19helplineinfoapp:admin_operator_action' action=action id=id %}">     
+          {%  csrf_token %}
+          <style>
+            p > input{
+              width: 100%;
+            }
+            p > select{
+              width: 100%;
+            }
+          </style>
+          {{ operator_form.as_p}}
+          <button class="btn btn-primary" type="submit">Add</button>
+          </form>
+</div>
+
+    </div>
+  </div>
+
+
+  <!-- DataTales Example -->
+  <!-- <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Equipments</h6>
+    </div>
+    <div class="card-body">
+
+      <table class="table">
+        <thead>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Commisioned Date</th>
+          <th>Status</th>
+          <th>Location</th>
+          <th>IoT Sensors</th>
+          <th>Linked QR</th>
+          <th>Work Instructions</th>
+          <th>Equipment Log</th>
+          <th>Action</th>
+          </thead>
+          <tbody>
+
+            <td>LDKJF</td>
+            <td>LDKJF</td>
+            <td>LDKJF</td>
+            <td>LDKJF</td>
+            <td>LDKJF</td>
+            <td>LDKJF</td>
+            <td>LDKJF</td>
+            <td>LDKJF</td>
+            <td>LDKJF</td>
+            <td><a href="">Edit</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div> -->
+  <!-- /.container-fluid -->
+
+  {% endblock %}

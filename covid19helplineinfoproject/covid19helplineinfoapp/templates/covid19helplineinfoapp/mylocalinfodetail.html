@@ -1,0 +1,69 @@
+{% extends 'covid19helplineinfoapp/base.html' %}
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+  <!-- Page Heading -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Local Help Info</li>
+      <!-- <li class="breadcrumb-item active" aria-current="page"><a
+              href="{% url 'covid19helplineinfoapp:mylocalinfo'   %}" class="">Manage</a></li> -->
+    </ol>
+  </nav>
+
+
+  <table class="table stripe">
+
+    <tr>
+      <td>Location</td>
+      <td>{{info.country}} - {{info.state}} - {{info.city}} - {{info.area}}</td>
+    </tr>
+    <tr>
+      <td>Helpline Phonenumber 1</td>
+      <td>{{info.helpline_phonenumber1}}</td>
+    </tr>
+    <tr>
+      <td>Helpline Phonenumber 2</td>
+      <td>{{info.helpline_phonenumber2}}</td>
+    </tr>
+    <tr>
+      <td>Helpline Phonenumber 3</td>
+      <td>{{info.helpline_phonenumber3}}</td>
+    </tr>
+    <tr>
+      <td>Whatsapp Phonenumber</td>
+      <td>{{info.helpline_whatsapp_phonenumber}}</td>
+    </tr>
+    <tr>
+      <td>Helpline Email</td>
+      <td>{{info.helpline_email}}</td>
+    </tr>
+    <tr>
+      <td>Helcenter Address</td>
+      <td>{{info.helpline_centre_address}}</td>
+    </tr>
+    <tr>
+      <td>How to get there</td>
+      <td>{{info.howto_get_there}}</td>
+    </tr>
+    <tr>
+      <td>Other Instructions</td>
+      <td>{{info.other_instructions}}</td>
+    </tr>
+    <tr>
+      <td>Location</td>
+      <td>{{info.other_instructions}}</td>
+    </tr>
+    <tr>
+      <td>Map Location URL</td>
+      <td>{{info.map_location_url}}</td>
+    </tr>
+    <tr>
+      <td>Information Source</td>
+      <td>{{info.info_source}}</td>
+
+    </tr>
+  </table>
+
+  {% endblock %}

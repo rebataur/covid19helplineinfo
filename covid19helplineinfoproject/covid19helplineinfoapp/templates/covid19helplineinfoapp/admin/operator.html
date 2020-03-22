@@ -1,0 +1,129 @@
+{% extends 'covid19helplineinfoapp/base.html' %}
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+  <!-- Page Heading -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Manage Operator</li>
+      <li class="breadcrumb-item active" aria-current="page"><a
+          href="{% url 'covid19helplineinfoapp:admin_operator_action' action='create' id=0 %}" class="">Create</a></li>
+    </ol>
+  </nav>
+
+  <form method="post" action="{% url 'covid19helplineinfoapp:admin_operator_detail' %}">
+    {% csrf_token %}
+
+    <div class="form-row">
+
+      <div class="col">
+        <div class="form-group">
+          <label for="select">Equipment Type</label>
+          <div>
+            {{ form.equipment_type }}
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="col">
+        <div class="form-group">
+          <label for="select">Status On(Optional) </label>
+          <div>
+            {{ form.status_date }}
+          </div>
+        </div>
+      </div> -->
+    </div>
+
+
+    <div class="form-group">
+      <input name="submit" type="submit" class="btn btn-primary" value="Filter Operator"/>
+    </div>
+  </form>
+
+  <form method="post" action="{% url 'covid19helplineinfoapp:admin_operator_detail'%}">     
+      {%  csrf_token %}
+      <style>
+        p > input{
+          width: 100%;
+        }
+        p > select{
+          width: 100%;
+        }
+      </style>
+      {{ operator_form.as_p}}
+      <div class="form-group">
+          <input name="submit" type="submit" class="btn btn-primary" value="Add Operator"/>
+        </div>
+      </form>
+  <table class="table">
+    <thead>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Type</th>
+
+      <!-- <th>
+       
+       Action
+      </th> -->
+    </thead>
+    <tbody>
+
+      {% for operator in operators %}
+      <tr>
+        <td>{{operator.id}}</td>
+        <td>{{operator.user.first_name}} {{operator.user.last_name}}</td>
+        <td>{{operator.equipment_type}}</td>
+
+        <!-- <td>
+          <form method="POST" action="{% url 'covid19helplineinfoapp:admin_operator_detail' %}">
+            {%csrf_token%}
+              <input type="hidden" value="{{operator.id}}" name="operator_id" />
+              <input name="submit" type="submit" class="btn btn-primary" value="Remove Operator"/>
+          </form>
+          
+        </td> -->
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <!-- DataTales Example -->
+  <!-- <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Equipments</h6>
+    </div>
+    <div class="card-body">
+
+      <table class="table">
+        <thead>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Commisioned Date</th>
+          <th>Status</th>
+          <th>Location</th>
+          <th>IoT Sensors</th>
+          <th>Linked QR</th>
+          <th>Work Instructions</th>
+          <th>Asset Log</th>
+          <th>Action</th>
+          </thead>
+          <tbody>
+
+            <td>{{equipment.</td>
+            <td>{{equipment.</td>
+            <td>{{equipment.</td>
+            <td>{{equipment.</td>
+            <td>{{equipment.</td>
+            <td>{{equipment.</td>
+            <td>{{equipment.</td>
+            <td>{{equipment.</td>
+            <td>{{equipment.</td>
+            <td><a href="">Edit</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div> -->
+  <!-- /.container-fluid -->
+
+  {% endblock %}

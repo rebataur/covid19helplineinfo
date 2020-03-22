@@ -1,0 +1,27 @@
+{% extends 'covid19helplineinfoapp/base.html' %}
+{% block content %}
+<style>
+    p > label{
+        width:200px;
+    }
+</style>
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+  <!-- Page Heading -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Local Help Info</li>
+      <!-- <li class="breadcrumb-item active" aria-current="page"><a
+              href="{% url 'covid19helplineinfoapp:mylocalinfo'   %}" class="">Manage</a></li> -->
+    </ol>
+  </nav>
+
+
+<form method="POST" action="{% url 'covid19helplineinfoapp:mylocalinfoform' %}">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button class="btn btn-success" type="submit">Submit</button>
+</form>
+
+  {% endblock %}

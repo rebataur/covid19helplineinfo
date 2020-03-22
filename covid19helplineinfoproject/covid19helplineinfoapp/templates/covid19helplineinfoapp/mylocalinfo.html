@@ -1,0 +1,48 @@
+{% extends 'covid19helplineinfoapp/base.html' %}
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+  <!-- Page Heading -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Local Help Info</li>
+    </ol>
+  </nav>
+
+  <form method='GET'>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Country</label>
+      <select name="country"
+        ic-post-to='{% url 'covid19helplineinfoapp:mylocalinfofilter' %}'
+        ic-target='#state-select' class="custom-select">
+
+        <option selected>Select One</option>
+        {% for country in country %}
+
+        <option value="{{country.country}}">{{country.country}}
+        </option>
+        {% endfor %}
+
+      </select>
+      <small id="emailHelp" class="form-text text-muted">Keep Typing and it will search</small>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">State</label>
+      <select name="state" ic-post-to='{% url 'covid19helplineinfoapp:mylocalinfofilter' %}'
+        ic-target='#city-select' class="custom-select" id="state-select">
+
+      </select>
+      <small id="emailHelp" class="form-text text-muted">Keep Typing and it will search</small>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">City</label>
+      <select name="city" class="custom-select" id="city-select">
+      </select>
+      <small id="emailHelp" class="form-text text-muted">Keep Typing and it will search</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="{% url 'covid19helplineinfoapp:mylocalinfoform' %}" class="">Not Found Create Data</a>
+  </form>
+
+  {% endblock %}

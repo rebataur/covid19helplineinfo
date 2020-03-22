@@ -1,0 +1,202 @@
+{% extends 'covid19helplineinfoapp/base.html' %}
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'covid19helplineinfoapp:admin_wi_detail' %}" class="">Manage
+          Work Instruction</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Create</li>
+    </ol>
+  </nav>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-6">
+
+          <form ic-post-to="{% url 'covid19helplineinfoapp:admin_wi_action' action=action id=id %}">     
+              {%  csrf_token %}
+              <style>
+                p > input{
+                  width: 100%;
+                }
+                p > select{
+                  width: 100%;
+                }
+              </style>
+              {{ wi_form.as_p}}
+              <button class="btn btn-primary" type="submit">Create</button>
+              </form>
+
+
+          <form method="post" action="{% url 'covid19helplineinfoapp:admin_wi_action' action=action id=id %}">     
+          {%  csrf_token %}
+          <style>
+            p > input{
+              width: 100%;
+            }
+            p > select{
+              width: 100%;
+            }
+          </style>
+          {{ wi_form.as_p}}
+          <button class="btn btn-primary" type="submit">Create</button>
+          </form>
+        <!-- <form method="post" action="">
+         
+          <div class="form-group">
+            <label for="equipment_name">Equipment Name</label>
+            <input id="equipment_name" name="equipment_name" type="text" class="form-control">
+          </div>
+          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+          <form>
+            <div class="form-group">
+              <label for="equipment_type">Equipment Type</label>
+              <div>
+                <select id="equipment_type" name="equipment_type" class="custom-select">
+                  <option value="rabbit">PCB</option>
+                  <option value="duck">Generator</option>
+                  <option value="fish">Thermal</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+          <div class="form-group">
+            <label for="equipment_location">Equipment Location</label>
+            <textarea id="equipment_location" name="equipment_location" cols="40" rows="5"
+              class="form-control"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="status" id="status_0" type="radio" class="custom-control-input" value="rabbit">
+                <label for="status_0" class="custom-control-label">To Be Commissioned</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="status" id="status_1" type="radio" class="custom-control-input" value="duck">
+                <label for="status_1" class="custom-control-label">Commissioned &amp; Operational</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="status" id="status_2" type="radio" class="custom-control-input" value="fish">
+                <label for="status_2" class="custom-control-label">Operational &amp; To Be De-Commisioned</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="status" id="status_3" type="radio" class="custom-control-input" value="decomissioned">
+                <label for="status_3" class="custom-control-label">De-Commisioned</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="status_date">Status Date</label>
+            <input id="status_date" name="status_date" type="date" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Maintenance Schedule</label>
+            <div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="maintenance_schedule" id="maintenance_schedule_0" type="radio" class="custom-control-input"
+                  value="rabbit">
+                <label for="maintenance_schedule_0" class="custom-control-label">Routine</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="maintenance_schedule" id="maintenance_schedule_1" type="radio" class="custom-control-input"
+                  value="duck">
+                <label for="maintenance_schedule_1" class="custom-control-label">Ad-Hoc</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input name="maintenance_schedule" id="maintenance_schedule_2" type="radio" class="custom-control-input"
+                  value="fish">
+                <label for="maintenance_schedule_2" class="custom-control-label">IoT Triggered</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="assign_work_instructions">Assign Work Instructions</label>
+            <div>
+              <select id="assign_work_instructions" name="assign_work_instructions" class="custom-select">
+                <option value="rabbit">PCB</option>
+                <option value="duck">Thermal</option>
+                <option value="fish">Generator</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="department">Department</label>
+            <div>
+              <select id="department" name="department" class="custom-select">
+                <option value="rabbit">Maint.XXXX</option>
+                <option value="duck">Maint.XXYY</option>
+                <option value="fish">Maint.XXZZ</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="no">No</label>
+            <input id="no" name="no" type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <div>
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input name="checkbox" id="checkbox_0" type="checkbox" checked="checked" class="custom-control-input"
+                  value="rabbit">
+                <label for="checkbox_0" class="custom-control-label">Generate QR Code</label>
+              </div>
+
+            </div>`
+          </div>
+          <div class="form-group">
+            <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form> -->
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- DataTales Example -->
+  <!-- <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Equipments</h6>
+    </div>
+    <div class="card-body">
+
+      <table class="table">
+        <thead>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Commisioned Date</th>
+          <th>Status</th>
+          <th>Location</th>
+          <th>IoT Sensors</th>
+          <th>Linked QR</th>
+          <th>Work Instructions</th>
+          <th>Equipment Log</th>
+          <th>Action</th>
+          </thead>
+          <tbody>
+
+            <td>LDKJF</td>
+            <td>LDKJF</td>
+            <td>LDKJF</td>
+            <td>LDKJF</td>
+            <td>LDKJF</td>
+            <td>LDKJF</td>
+            <td>LDKJF</td>
+            <td>LDKJF</td>
+            <td>LDKJF</td>
+            <td><a href="">Edit</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div> -->
+  <!-- /.container-fluid -->
+
+  {% endblock %}
