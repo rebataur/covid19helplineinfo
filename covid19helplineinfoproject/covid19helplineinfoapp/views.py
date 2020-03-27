@@ -52,17 +52,19 @@ def home(request):
         'local_help_circle' : True,
         'my_local_area_selected' : True
     }
-
-    profile_instance = Profile.objects.filter(user__username=request.user)[0]
-    people_around = get_people_around(profile_instance.id)
-    print(profile_instance.id)
-    print(people_around)
+    if request.user:
+        profile_instance = Profile.objects.filter(user__username=request.user)[0]
+        people_around = get_people_around(profile_instance.id)
+        print(profile_instance.id)
+        print(people_around)
+        context['people_around'] = people_around
+        
     news = News.objects.all()
 
     dashboard = Dashboard.objects.all()[0] if len(Dashboard.objects.all()) > 0 else None
     context['news'] = news
     context['dashboard'] = dashboard
-    context['people_around'] = people_around
+   
     print(settings.GMAP_API_KEY)
     context['GMAP_API_KEY'] = settings.GMAP_API_KEY
 
