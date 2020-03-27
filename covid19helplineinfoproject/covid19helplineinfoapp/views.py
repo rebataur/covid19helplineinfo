@@ -3,6 +3,8 @@ import datetime
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 
+from django.conf import settings
+
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
@@ -35,7 +37,8 @@ from .models import (
     Dashboard,
     LoadDataModel,
 
-    get_location_data
+    get_location_data,
+    get_people_around
 
 )
 
@@ -50,11 +53,18 @@ def home(request):
         'my_local_area_selected' : True
     }
 
+    profile_instance = Profile.objects.filter(user__username=request.user)[0]
+    people_around = get_people_around(profile_instance.id)
+    print(profile_instance.id)
+    print(people_around)
     news = News.objects.all()
 
     dashboard = Dashboard.objects.all()[0] if len(Dashboard.objects.all()) > 0 else None
     context['news'] = news
     context['dashboard'] = dashboard
+    context['people_around'] = people_around
+    print(settings.GMAP_API_KEY)
+    context['GMAP_API_KEY'] = settings.GMAP_API_KEY
 
     return render(request,'covid19helplineinfoapp/home.html',context=context)
 
@@ -189,6 +199,32 @@ def signup(request):
                 user = form.save()
                 user.is_active = False
                 user.save()
+                print(request.POST)
+
+                username = request.POST['username']
+                country = request.POST['country']
+                state = request.POST['state']
+                district = request.POST['district']
+                lng = request.POST['lng']
+                lat = request.POST['lat']
+                address = request.POST['address']
+                help_type = request.POST['help_type']
+                help_text = request.POST['help_text']
+                
+                profile_instance = Profile.objects.filter(user__username=request.POST['username'])[0]
+                profile_instance.country = country
+                profile_instance.state = state
+                profile_instance.district = district
+                profile_instance.lng = lng
+                profile_instance.lat = lat
+                profile_instance.address = address
+                profile_instance.help_type = help_type
+                profile_instance.help_text = help_text
+
+                # profile_instance.set_location()
+
+                profile_instance.save()
+
                 current_site = get_current_site(request)
                 subject = "Activate Your MySite Account"
                 message = render_to_string(
@@ -215,7 +251,7 @@ def signup(request):
                 return redirect("account_activation_sent/")
     else:
         form = SignUpForm()
-    return render(request, "registration/signup.html", {"form": form})
+    return render(request, "registration/signup.html", {"form": form,'GMAP_API_KEY': settings.GMAP_API_KEY})
 
 
 def activate(request, uidb64, token):

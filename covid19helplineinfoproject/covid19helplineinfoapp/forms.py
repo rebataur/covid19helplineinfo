@@ -7,19 +7,34 @@ from django.db.models import Q
 from django.forms.models import BaseInlineFormSet, inlineformset_factory
 
 from django.forms import ModelChoiceField
-from .models import Profile, LocalHelpInfo
+from .models import Profile, LocalHelpInfo, HELP_TYPE
 
 class SignUpForm(UserCreationForm):
+    help_type = forms.ChoiceField(
+        required=False,
+      
+        choices=HELP_TYPE
+    )
+   
     first_name = forms.CharField(max_length=30, required=True, help_text="Optional.")
     last_name = forms.CharField(max_length=30, required=True, help_text="Optional.")
     email = forms.EmailField(
         max_length=254, help_text="Required a valid email address."
     )
-    birth_date = forms.DateField(help_text="Required. Format: YYYY-MM-DD")
-
+    # birth_date = forms.DateField(help_text="Required. Format: YYYY-MM-DD")
+  
+    lng = forms.DecimalField()
+    lat = forms.DecimalField()
+    district = forms.CharField()
+    state = forms.CharField()
+    country = forms.CharField()
+    address = forms.CharField()
+    help_text = forms.CharField(widget=forms.Textarea)
     class Meta:
         model = User
         fields = (
+            "help_type",
+            "help_text",
             "username",
             "first_name",
             "last_name",
