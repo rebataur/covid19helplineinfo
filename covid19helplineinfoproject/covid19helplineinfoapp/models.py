@@ -63,7 +63,7 @@ class LocalHelpInfo(models.Model):
     # address = models.CharField(max_length=300, blank=True)
     # area = models.CharField(max_length=300, blank=True)
     city = models.CharField(max_length=30, )
-    state = models.CharField(max_length=30, )
+    state = models.CharField(max_length=300, )
     country = models.CharField(max_length=30, )
     zip_code = models.IntegerField(blank=True, default=0, null=True)
 
@@ -155,11 +155,11 @@ def get_people_around(id):
 
     return rows
 
-def get_people_around_anon(id,source_lat,source_lng):
+def get_people_around_anon(source_lat,source_lng):
     with connection.cursor() as cursor:
         sql = '''
        with distance AS(
-            select p2.id as target_id,p2.lng as target_lng, p2.lat as target_lat, ST_Distance(
+            select p2.id as target_id,  p2.lat as target_lat, p2.lng as target_lng, ST_Distance(
               ST_Point(73,12)::geography,
               ST_Point(p2.lat,p2.lng)::geography
             ) as d

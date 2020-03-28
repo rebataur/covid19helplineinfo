@@ -1,10 +1,12 @@
 import datetime
+from decimal import Decimal
 
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 
 from django.conf import settings
 
+from django.http import JsonResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.utils import timezone
@@ -38,7 +40,8 @@ from .models import (
     LoadDataModel,
 
     get_location_data,
-    get_people_around
+    get_people_around,
+    get_people_around_anon
 
 )
 
@@ -48,23 +51,10 @@ def index(request):
     return render(request,'covid19helplineinfoapp/index.html',context={})
 
 def home(request):
-    current_lat = request.GET.get('lat')
-    current_lng = request.GET.get('lng')
     context = {
         'local_help_circle' : True,
         'my_local_area_selected' : True
     }
-    if request.user and len(Profile.objects.filter(user__username=request.user))> 0:
-        profile_instance = Profile.objects.filter(user__username=request.user)[0]
-        people_around = get_people_around(profile_instance.id)
-        print(profile_instance.id)
-        print(people_around)
-        context['people_around'] = people_around
-    else:
-        people_around = get_people_around(0)
-        print(profile_instance.id)
-        print(people_around)
-        context['people_around'] = people_around
 
     news = News.objects.all()
 
@@ -77,7 +67,32 @@ def home(request):
 
     return render(request,'covid19helplineinfoapp/home.html',context=context)
 
+def get_people_around_my_area(request):
+ 
+    current_lat = Decimal(request.GET['lat'])
+    current_lng = Decimal(request.GET['lng'])
+    context = {}
+    if request.user and len(Profile.objects.filter(user__username=request.user))> 0:
+        profile_instance = Profile.objects.filter(user__username=request.user)[0]
+        people_around = get_people_around(profile_instance.id)
+        print(profile_instance.id)
+        print(people_around)
+        context['people_around'] = people_around
+    else:
+        people_around = get_people_around_anon(current_lat,current_lng)
+        print(people_around)
+        context['people_around'] = people_around
+    print(context)
+    return JsonResponse(context)
 
+@login_required
+def person_details(request):
+    id = request.GET.get('id')
+    profile_instance = Profile.objects.get(pk=id)
+    context = {'profile_instance' : profile_instance}
+    return render(request,'covid19helplineinfoapp/persondetails.html', context)
+
+    
 def mylocalinfo(request):
     country = request.GET.get('country')
     state = request.GET.get('state')
