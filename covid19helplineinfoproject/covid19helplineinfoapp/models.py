@@ -154,3 +154,22 @@ def get_people_around(id):
         rows = cursor.fetchall()
 
     return rows
+
+def get_people_around_anon(id,source_lat,source_lng):
+    with connection.cursor() as cursor:
+        sql = '''
+       with distance AS(
+            select p2.id as target_id,p2.lng as target_lng, p2.lat as target_lat, ST_Distance(
+              ST_Point(73,12)::geography,
+              ST_Point(p2.lat,p2.lng)::geography
+            ) as d
+            FROM  covid19helplineinfoapp_profile as p2
+        )
+
+        SELECT * from distance order by distance.d limit 100
+        '''.format(source_lng,source_lat)
+        cursor.execute(sql)
+
+        rows = cursor.fetchall()
+
+    return rows

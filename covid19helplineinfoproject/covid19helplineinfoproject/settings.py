@@ -136,17 +136,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
-
-# SPARKPOST_API_KEY = 'ebf9a23876e3af595bc967e7dcda300f3c631a7f'
-# mpfocxrzosritfoa
-
-EMAIL_USE_SSL = True
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'covid19helplineinfo@gmail.com'
-EMAIL_HOST_PASSWORD = 'kenkzpmtqwgkvhbe'
-EMAIL_PORT = 465
-
-GMAP_API_KEY = 'AIzaSyB3kEZ4Ab6bZEioksVXtY_iVhzQqA3W5vc'
-

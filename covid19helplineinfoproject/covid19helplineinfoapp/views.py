@@ -48,6 +48,8 @@ def index(request):
     return render(request,'covid19helplineinfoapp/index.html',context={})
 
 def home(request):
+    current_lat = request.GET.get('lat')
+    current_lng = request.GET.get('lng')
     context = {
         'local_help_circle' : True,
         'my_local_area_selected' : True
@@ -55,6 +57,11 @@ def home(request):
     if request.user and len(Profile.objects.filter(user__username=request.user))> 0:
         profile_instance = Profile.objects.filter(user__username=request.user)[0]
         people_around = get_people_around(profile_instance.id)
+        print(profile_instance.id)
+        print(people_around)
+        context['people_around'] = people_around
+    else:
+        people_around = get_people_around(0)
         print(profile_instance.id)
         print(people_around)
         context['people_around'] = people_around

@@ -5,3 +5,13 @@ sudo apt-get update
 sudo apt-get install postgresql postgresql-contrib
 
 sudo apt install -y gdal-bin libgdal-dev python3-gdal binutils libproj-dev postgis postgresql-12-postgis-2.5
+
+sudo nano /etc/postgresql/12/main/postgresql.conf
+
+listen_address='localhost'
+
+sudo nano /etc/postgresql/12/main/pg_hba.conf
+host    all             all              0.0.0.0/0              md5
+host    all             all              ::/0                   md5
+
+
