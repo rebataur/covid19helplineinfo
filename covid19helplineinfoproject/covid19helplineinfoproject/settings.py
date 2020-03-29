@@ -137,3 +137,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+EMAIL_USE_SSL = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'covid19helplineinfo@gmail.com'
+EMAIL_HOST_PASSWORD = 'kenkzpmtqwgkvhbe'
+EMAIL_PORT = 465
+
+GMAP_API_KEY = 'AIzaSyB3kEZ4Ab6bZEioksVXtY_iVhzQqA3W5vc'
